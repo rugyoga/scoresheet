@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf8">
+		<base href="/">
+		<title>Guy's automated scoresheet</title>
+		<style>.breaking { color: red; }</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1>SFPA Scoresheet</h1>
+			<div id="mainview" ng-app="Scoresheet" ng-controller="ScoresheetCtrl">
+				<table>
+					<tr>
+						<td valign='top'>
+							<table>
+								<tr>
+									<th>#</th>
+									<th><input type='text' ng-model='home.name' placeholder="Home team"></th>
+									<th colspan='2'><strong>{{home.wins}}</strong></th>
+								</tr>
+								<tr><th>#</th><th>Player</th><th>1</th><th>2</th><th>3</th><th>4</th><th>W-L</th><th>TR</th></tr>
+								<tr ng-repeat="p1 in home.player">
+									<td>{{$index+1}}.</td>
+									<td><input type='text' ng-model='p1.name' placeholder="Home player {{$index+1}}"></td>
+									<td ng-repeat="m in p1.match">{{match[m].win == -1 ? '' : match[m].win}}</td>
+									<td align='center'>{{wins(p1).length}}-{{losses(p1).length}}</td>
+									<td>{{tableruns(p1).length}}</td>
+								</tr>
+							</table>
+							<table>
+								<tr>
+									<th>#</th>
+									<td><input type='text' ng-model='away.name' placeholder="Away team"></td>
+									<th colspan='2'><strong>{{away.wins}}</strong></th>
+								</tr>
+								<tr><th>#</th><th>Player</th><th>1</th><th>2</th><th>3</th><th>4</th><th>W-L</th><th>TR</th></tr>
+								<tr ng-repeat="p2 in away.player">
+									<td>{{$index+1}}.</td>
+									<td><input type='text' ng-model='p2.name' placeholder="Away player {{$index+1}}"></td>
+									<td ng-repeat="m in p2.match">{{match[m].win == -1 ? '' : match[m].loss}}</td>
+									<td align='center'>{{wins(p2).length}}-{{losses(p2).length}}</td>
+									<td>{{tableruns(p2).length}}</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							&nbsp;&nbsp;
+						</td>
+						<td>
+							<table>
+								<tr>
+									<th>#</th>
+									<th><strong>{{home.name}}</strong></th>
+									<th>H</th>
+									<th>vs</th>
+									<th>A</th>
+									<th><strong>{{away.name}}</strong></th>
+									<th>TR</th>
+								</tr>
+								<tr ng-repeat="m in match">
+									<td ng-init="m.win = -1">{{$index+1}}.</td>
+									<td ng-class="{breaking: m.breaks}">{{home.player[m.home].name}}</td>
+									<td><input type="radio" name="match_{{$index+1}}" value="1" ng-click="record_result( m, 1 )"/></td>
+									<td>vs</td>
+									<td><input type="radio" name="match_{{$index+1}}" value="0" ng-click="record_result( m, 0 )"/></td>
+									<td ng-class="{breaking: !m.breaks}">{{away.player[m.away].name}}</td>
+									<td><input type="checkbox" ng-model="m.tablerun"></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div>
+			<p>&copy; Guy Argo 2014</p>
+			</div>
+		</div>
+		<script src="//cdn.jsdelivr.net/underscorejs/1.6.0/underscore-min.js"></script>
+		<script src="js/angular.js"></script>
+		<script src="js/angular-resource.js"></script>
+		<script src="js/angular-route.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/controllers/ScoresheetCtrl.js"></script>
+	</body>
+</html>
