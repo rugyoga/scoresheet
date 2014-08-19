@@ -1,0 +1,6 @@
+This is a Single Page Application written in Angular to implement
+the SFPA Pool League scoresheet. It allows you to create two rosters
+for the Home and Away team and allows you to keep the scores up-to-date.
+It records wins and table runs.
+It currently does not allow substitutions.
+There is also no means to submit the result directly to the SPFA web-site.
