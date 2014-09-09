@@ -30,26 +30,42 @@ app
 		$scope.away.player[m.away].match.push( i );
 	}
 	
+	$scope.substitute =
+		function( home_player_str, name, from )
+		{
+			var home_player = JSON.parse( home_player_str );
+			var home = home_player[0], subbed = home_player[1];
+			var team   = home ? $scope.home : $scope.away;
+			var new_id = team.player.length;
+			var match  = team.player[subbed].match.splice( from-1 );
+			team.player.push( { name: name, home: home, match: match } );
+			for (var i = 0; i < match.length; i++)
+				$scope.match[match[i]][home ? 'home' : 'away'] = new_id;
+		};
+	
 	$scope.record_result =
 		function( m, result )
 		{
 			m.win  = result;
 			m.loss = 1-result;
-			$scope.home.wins = _.filter( $scope.match, function(m){ return m.win == 1; } ).length;
+			$scope.home.wins = _.filter( $scope.match, function(m){ return m.win  == 1; } ).length;
 			$scope.away.wins = _.filter( $scope.match, function(m){ return m.loss == 1; } ).length;
-		}
+		};
+		
 	$scope.wins =
 		function(p)
 		{
 			var matches = _.map( p.match, function(m){ return $scope.match[m]; } );
 			return _.filter( matches, function( m ){ return (p.home ? m.win : m.loss) == 1; } );
-		}
+		};
+		
 	$scope.losses =
 		function(p)
 		{
 			var matches = _.map( p.match, function(m){ return $scope.match[m]; } );
-			return _.filter( matches, function( m ){ return (p.home ? m.win : m.loss) == 0; } );
-		}
-	$scope.tableruns = function(p){ return _.filter( $scope.wins(p), function(m){ return m.tablerun == 1; } ); }
+			return _.filter( matches, function( m ){ return (p.home ? m.win : m.loss) === 0; } );
+		};
+
+	$scope.tableruns = function(p){ return _.filter( $scope.wins(p), function(m){ return m.tablerun == 1; } ); };
   }
-)
+);

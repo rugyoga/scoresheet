@@ -4,6 +4,9 @@
 		<meta charset="utf8">
 		<base href="/">
 		<title>Guy's automated scoresheet</title>
+		<link rel="stylesheet" href="dist/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="dist/css/font-awesome.min.css">
 		<style>.breaking { color: red; }</style>
 	</head>
 	<body>
@@ -16,7 +19,7 @@
 							<table>
 								<tr>
 									<th>#</th>
-									<th><input type='text' ng-model='home.name' placeholder="Home team"></th>
+									<th colspan='6' align='center'><input type='text' ng-model='home.name' placeholder="Home team"></th>
 									<th colspan='2'><strong>{{home.wins}}</strong></th>
 								</tr>
 								<tr><th>#</th><th>Player</th><th>1</th><th>2</th><th>3</th><th>4</th><th>W-L</th><th>TR</th></tr>
@@ -31,7 +34,7 @@
 							<table>
 								<tr>
 									<th>#</th>
-									<td><input type='text' ng-model='away.name' placeholder="Away team"></td>
+									<td colspan='6' align='center'><input type='text' ng-model='away.name' placeholder="Away team"></td>
 									<th colspan='2'><strong>{{away.wins}}</strong></th>
 								</tr>
 								<tr><th>#</th><th>Player</th><th>1</th><th>2</th><th>3</th><th>4</th><th>W-L</th><th>TR</th></tr>
@@ -43,6 +46,25 @@
 									<td>{{tableruns(p2).length}}</td>
 								</tr>
 							</table>
+							<form name="sub">
+								<label for='sub_out'>Subbed out</label>
+								<select name='sub_out' ng-model='sub_out'>
+									<option ng-repeat='home_sub in home.player' value='[1,{{$index}}]'>{{home_sub.name}}</option>
+									<option ng-repeat='away_sub in away.player' value='[0,{{$index}}]'>{{away_sub.name}}</option>
+								</select>
+								<br>
+								<label for='sub_in'>Subbed in</label>
+								<input type='text' name='sub_in' ng-model="sub_in">
+								<br>
+								<label for='sub_start'>First game</label>
+								<select name='sub_start' ng-model='sub_start'>
+									<option ng-repeat='start in [2,3,4]' value='{{start}}'>{{start}}</option>
+								</select>
+								<pre>{{sub_out | json}}</pre>
+								<pre>{{sub_in | json}}</pre>
+								<button ng-click='substitute( sub_out, sub_in, sub_start )'><pre>{{sub_start | json}}</pre>
+								
+							</form>
 						</td>
 						<td>
 							&nbsp;&nbsp;
@@ -76,11 +98,6 @@
 			<p>&copy; Guy Argo 2014</p>
 			</div>
 		</div>
-		<script src="//cdn.jsdelivr.net/underscorejs/1.6.0/underscore-min.js"></script>
-		<script src="js/angular.js"></script>
-		<script src="js/angular-resource.js"></script>
-		<script src="js/angular-route.js"></script>
-		<script src="js/app.js"></script>
-		<script src="js/controllers/ScoresheetCtrl.js"></script>
+		<script src="dist/js/scoresheet.js"></script>
 	</body>
 </html>
