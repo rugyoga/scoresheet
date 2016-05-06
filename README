@@ -2,5 +2,14 @@ This is a Single Page Application written in Angular to implement
 the SFPA Pool League scoresheet. It allows you to create two rosters
 for the Home and Away team and allows you to keep the scores up-to-date.
 It records wins and table runs.
-It currently does not allow substitutions.
 There is also no means to submit the result directly to the SPFA web-site.
+
+Mac OS X intructions:
+
+brew install node            # install nodejs
+npm install                  # install npm packages
+npm install -g grunt-cli     # install grunt-cli
+bower install                # install bower packages
+grunt                        # run grunt
+node server.js               # run the node server
+open http://localhost:8080/  # open a browser window
